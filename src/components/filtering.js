@@ -12,25 +12,21 @@ export function initFiltering(elements) {
     }
 
     const applyFiltering = (query, state, action) => {
+        
         if (action && action.name === 'clear') {
-            const button = action.element;
-            if (!button) return query;
+            const button = action;
+            const fieldName = button.getAttribute('data-field');
+            const parent = button.closest('.filter-wrapper');
+            const input = parent.querySelector('input, select');
+            if (input) {
+                input.value = ''; 
+            }
 
-        const fieldName = button.getAttribute('data-field');
-        if (!fieldName) return query;
-
-        const parent = button.closest('.filter-wrapper');
-        if (!parent) return query;
-
-        const input = parent.querySelector('input, select');
-        if (input) {
-            input.value = ''; 
-        }
-
-        if (state.filters && state.filters.hasOwnProperty(fieldName)) {
-            state.filters[fieldName] = '';
-        }
-            }  
+            if (state.filters && state.filters.hasOwnProperty(fieldName)) {
+                state.filters[fieldName] = '';
+            }
+        return query;
+    }  
 
     const filter = {};
     
@@ -51,5 +47,4 @@ export function initFiltering(elements) {
     }
 
 }
-
 
