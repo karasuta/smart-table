@@ -34,11 +34,10 @@ const getIndexes = async () => {
 const getRecords = async (query, isUpdated = false) => {
         const qs = new URLSearchParams(query); // преобразуем объект параметров в SearchParams объект, представляющий query часть url
         const nextQuery = qs.toString(); // и приводим к строковому виду
-//console.log(nextQuery)
+
         if (lastQuery === nextQuery && !isUpdated) { // isUpdated параметр нужен, чтобы иметь возможность делать запрос без кеша
             return lastResult; // если параметры запроса не поменялись, то отдаём сохранённые ранее данные
         }
-
         // если прошлый квери не был ранее установлен или поменялись параметры, то запрашиваем данные с сервера
         const response = await fetch(`${BASE_URL}/records?${nextQuery}`);
         const records = await response.json();
